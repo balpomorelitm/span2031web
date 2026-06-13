@@ -286,6 +286,28 @@ h3 {
       background: rgba(255, 255, 255, 0.1);
     }
 
+    .page-switch {
+      flex: 0 0 auto;
+      min-height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 7px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 850;
+      white-space: nowrap;
+      transition: var(--transition);
+    }
+
+    .page-switch:hover {
+      background: var(--accent-dark);
+      transform: translateY(-1px);
+    }
+
     main {
       max-width: 1180px;
       margin: 0 auto;

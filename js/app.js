@@ -106,40 +106,23 @@ const photos = {
     let animationFrame = null;
     const cityMarkers = {};
 
-    const panels = document.querySelectorAll(".tab-panel");
-    const tabButtons = document.querySelectorAll(".tab-button");
-    const teacherNav = document.getElementById("teacherNav");
-    const studentNav = document.getElementById("studentNav");
-
-    tabButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const target = button.dataset.tab;
-        tabButtons.forEach((btn) => {
-          btn.classList.toggle("active", btn === button);
-          btn.setAttribute("aria-selected", btn === button ? "true" : "false");
-        });
-        panels.forEach((panel) => panel.classList.toggle("active", panel.id === target));
-        teacherNav.hidden = target !== "teachers";
-        studentNav.hidden = target !== "students";
-        window.setTimeout(() => {
-          if (routeMap) routeMap.invalidateSize();
-          if (studentRouteMap) {
-            studentRouteMap.invalidateSize();
-            studentRouteMap.fitBounds(Object.values(cityCoords), { padding: [42, 42] });
-          }
-        }, 80);
-      });
-    });
-
     function renderMapCard(step) {
       const photo = photos[step.city] || photos.Madrid;
-      document.getElementById("mapPhoto").src = photo.src;
-      document.getElementById("mapPhoto").alt = photo.alt;
-      document.getElementById("mapCity").textContent = step.city;
-      document.getElementById("mapDate").textContent = step.date;
-      document.getElementById("mapActivity").textContent = step.activity;
-      document.getElementById("mapCredit").innerHTML = `<a href="${photo.href}" target="_blank" rel="noreferrer">${photo.credit}</a>`;
-      document.getElementById("mapTags").innerHTML = step.tags.map((tag) => {
+      const mapPhoto = document.getElementById("mapPhoto");
+      const mapCity = document.getElementById("mapCity");
+      const mapDate = document.getElementById("mapDate");
+      const mapActivity = document.getElementById("mapActivity");
+      const mapCredit = document.getElementById("mapCredit");
+      const mapTags = document.getElementById("mapTags");
+      if (!mapPhoto || !mapCity || !mapDate || !mapActivity || !mapCredit || !mapTags) return;
+
+      mapPhoto.src = photo.src;
+      mapPhoto.alt = photo.alt;
+      mapCity.textContent = step.city;
+      mapDate.textContent = step.date;
+      mapActivity.textContent = step.activity;
+      mapCredit.innerHTML = `<a href="${photo.href}" target="_blank" rel="noreferrer">${photo.credit}</a>`;
+      mapTags.innerHTML = step.tags.map((tag) => {
         const cls = tag.includes("Day") ? "tag daytrip" : tag.includes("Train") ? "tag" : "tag warn";
         return `<span class="${cls}">${tag}</span>`;
       }).join("");
@@ -404,11 +387,13 @@ const photos = {
           duration: 0.8
         });
       }
-      document.getElementById("citySelect").value = step.city;
+      const citySelect = document.getElementById("citySelect");
+      if (citySelect) citySelect.value = step.city;
     }
 
     function buildCitySelect() {
       const select = document.getElementById("citySelect");
+      if (!select) return;
       const cities = [...new Set(mapSteps.map((step) => step.city))];
       select.innerHTML = cities.map((city) => `<option value="${city}">${city}</option>`).join("");
       select.addEventListener("change", () => {
@@ -419,7 +404,8 @@ const photos = {
 
     function togglePlay() {
       playing = !playing;
-      document.getElementById("playRoute").textContent = playing ? "Pause" : "Play";
+      const playRoute = document.getElementById("playRoute");
+      if (playRoute) playRoute.textContent = playing ? "Pause" : "Play";
       if (playing) {
         playTimer = window.setInterval(() => updateMap(currentStep + 1), 2200);
       } else {
@@ -446,7 +432,8 @@ const photos = {
     }
 
     function renderRouteCards() {
-      document.getElementById("routeCards").innerHTML = routeCardsMarkup();
+      const routeCards = document.getElementById("routeCards");
+      if (routeCards) routeCards.innerHTML = routeCardsMarkup();
       const studentCards = document.getElementById("studentRouteCards");
       if (studentCards) studentCards.innerHTML = routeCardsMarkup();
     }
@@ -454,6 +441,7 @@ const photos = {
     function renderDayFilters() {
       const cities = ["All", ...new Set(dayItems.map((item) => item.city.split(" / ")[0]))];
       const container = document.getElementById("dayFilters");
+      if (!container) return;
       container.innerHTML = cities.map((city, i) => `<button type="button" class="filter-button ${i === 0 ? "active" : ""}" data-city="${city}">${city}</button>`).join("");
       container.addEventListener("click", (event) => {
         const button = event.target.closest("button");
@@ -465,8 +453,10 @@ const photos = {
     }
 
     function renderDayList(filter = "All") {
+      const dayList = document.getElementById("dayList");
+      if (!dayList) return;
       const filtered = filter === "All" ? dayItems : dayItems.filter((item) => item.city.includes(filter));
-      document.getElementById("dayList").innerHTML = filtered.map((item, index) => `
+      dayList.innerHTML = filtered.map((item, index) => `
         <details class="day-card" ${index < 2 ? "open" : ""}>
           <summary>
             <span class="day-date">${item.date}</span>
@@ -492,7 +482,9 @@ const photos = {
     }
 
     function renderStudentDays() {
-      document.getElementById("studentDayList").innerHTML = dayItems.map((item, index) => `
+      const studentDayList = document.getElementById("studentDayList");
+      if (!studentDayList) return;
+      studentDayList.innerHTML = dayItems.map((item, index) => `
         <details class="day-card" ${index < 3 ? "open" : ""}>
           <summary>
             <span class="day-date">${item.date}</span>
@@ -529,8 +521,10 @@ const photos = {
     }
 
     function renderChecklist() {
+      const teacherChecklist = document.getElementById("teacherChecklist");
+      if (!teacherChecklist) return;
       const saved = JSON.parse(localStorage.getItem("span2031-checklist") || "{}");
-      document.getElementById("teacherChecklist").innerHTML = checklistGroups.map((group, groupIndex) => `
+      teacherChecklist.innerHTML = checklistGroups.map((group, groupIndex) => `
         <div class="check-group">
           <h3>${group.title}</h3>
           ${group.items.map((item, itemIndex) => {
@@ -560,6 +554,8 @@ const photos = {
       const dialog = document.getElementById("lightbox");
       const image = document.getElementById("lightboxImage");
       const caption = document.getElementById("lightboxCaption");
+      const close = document.querySelector(".lightbox-close");
+      if (!dialog || !image || !caption || !close) return;
       document.addEventListener("click", (event) => {
         const button = event.target.closest(".image-open");
         if (!button) return;
@@ -568,16 +564,20 @@ const photos = {
         caption.textContent = button.dataset.caption;
         dialog.showModal();
       });
-      document.querySelector(".lightbox-close").addEventListener("click", () => dialog.close());
+      close.addEventListener("click", () => dialog.close());
       dialog.addEventListener("click", (event) => {
         if (event.target === dialog) dialog.close();
       });
     }
 
-    document.getElementById("prevStep").addEventListener("click", () => updateMap(currentStep - 1));
-    document.getElementById("nextStep").addEventListener("click", () => updateMap(currentStep + 1));
-    document.getElementById("playRoute").addEventListener("click", togglePlay);
-    document.getElementById("showFullRoute").addEventListener("click", () => updateMap(currentStep, true));
+    const prevStep = document.getElementById("prevStep");
+    const nextStep = document.getElementById("nextStep");
+    const playRoute = document.getElementById("playRoute");
+    const showFullRoute = document.getElementById("showFullRoute");
+    if (prevStep) prevStep.addEventListener("click", () => updateMap(currentStep - 1));
+    if (nextStep) nextStep.addEventListener("click", () => updateMap(currentStep + 1));
+    if (playRoute) playRoute.addEventListener("click", togglePlay);
+    if (showFullRoute) showFullRoute.addEventListener("click", () => updateMap(currentStep, true));
     window.addEventListener("beforeprint", () => {
       document.querySelectorAll(".tab-panel.active details").forEach((detail) => detail.setAttribute("open", ""));
     });
