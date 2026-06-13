@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SPAN2031 Spain Field Trip 2027</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">HKU Spanish Programme | SPAN2031</div>
+      <h1>SPAN2031 Spain Field Trip 2027</h1>
+      <p>Centro informativo del viaje de estudio a España: ruta académica, mapa animado, logística, seguridad, tareas y documentación para profesorado y estudiantes.</p>
+      <div class="hero-meta" aria-label="Datos principales">
+        <span class="pill">26 May – 9 June 2027</span>
+        <span class="pill">Hong Kong → Madrid → Granada → Córdoba → Madrid</span>
+        <span class="pill">Tren / AVE en el sur de España</span>
+        <span class="pill">Excursiones: Toledo y Alcalá de Henares</span>
+      </div>
+      <div class="hero-countdown" id="heroCountdown" aria-live="polite">
+        <div class="countdown-unit"><strong id="cdDays">--</strong><span>días</span></div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-unit"><strong id="cdHours">--</strong><span>horas</span></div>
+        <span class="countdown-sep">:</span>
+        <div class="countdown-unit"><strong id="cdMins">--</strong><span>min</span></div>
+      </div>
+      <p class="countdown-meta">Cuenta atrás hasta la salida · 26 de mayo de 2027</p>
+    </div>
+  </header>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="tabs" role="tablist" aria-label="Secciones principales">
+        <button class="tab-button active" type="button" role="tab" aria-selected="true" aria-controls="teachers" data-tab="teachers">Profesorado</button>
+        <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="students" data-tab="students">Estudiantes</button>
+      </div>
+      <nav class="mini-nav" id="teacherNav" aria-label="Navegacion profesorado">
+        <a href="#resumen">Resumen</a>
+        <a href="#mapa">Mapa</a>
+        <a href="#ruta">Ruta</a>
+        <a href="#dia-a-dia">Dia a dia</a>
+        <a href="#academico">Academico</a>
+        <a href="#logistica">Logistica</a>
+        <a href="#seguridad">Seguridad</a>
+        <a href="#administracion">Administracion</a>
+        <a href="#checklist">Checklist</a>
+      </nav>
+      <nav class="mini-nav" id="studentNav" aria-label="Navegacion estudiantes" hidden>
+        <a href="#student-overview">Resumen</a>
+        <a href="#student-route">Mapa y ruta</a>
+        <a href="#student-itinerary">Itinerario</a>
+        <a href="#student-weather">Clima</a>
+        <a href="#student-bring">Que llevar</a>
+        <a href="#student-safety">Seguridad</a>
+        <a href="#student-assessment">Evaluacion</a>
+        <a href="#student-tasks">Tareas</a>
+        <a href="#student-costs">Costes</a>
+        <a href="#student-emergency">Emergencias</a>
+      </nav>
+    </div>
+  </div>
+
+  <main>
+    <article class="tab-panel active" id="teachers" role="tabpanel">
+      <section id="resumen">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-teacher">Profesorado</div>
+            <h2>Resumen operativo</h2>
+          </div>
+          <p>Plan preliminar para una experiencia academica realista, con gestion mixta: agencia para vuelos/alojamiento y profesorado para contenido, acompanamiento, tareas y evaluacion.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="stat"><strong>15 dias</strong><span>26 de mayo-9 de junio de 2027, incluyendo vuelos internacionales.</span></div>
+          <div class="stat"><strong>8-12</strong><span>Minimo viable de 8 estudiantes y objetivo de 12 participantes.</span></div>
+          <div class="stat"><strong>B1.3</strong><span>Perfil linguistico estimado: Year 2, estudiantes que cursen o hayan cursado SPAN2002.</span></div>
+        </div>
+        <div class="grid cols-2 spaced-top">
+          <div class="panel">
+            <h3>Modelo de viaje</h3>
+            <ul>
+              <li>Actividades academicas principalmente por la manana.</li>
+              <li>Tardes libres desde aproximadamente las 15:00 o 16:00.</li>
+              <li>Comidas no incluidas, con propuestas orientativas por zona.</li>
+              <li>Trabajo de campo, observacion urbana y documentacion multimodal.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Responsabilidades</h3>
+            <ul>
+              <li>Agencia: vuelos internacionales, alojamientos y preferiblemente trenes.</li>
+              <li>Profesorado: itinerario academico, tareas, web, comunicacion y evaluacion.</li>
+              <li>Administracion: confirmacion de pagos, reembolsos, depositos y seguro.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="mapa">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-teacher">Ruta animada</div>
+            <h2>Mapa del viaje</h2>
+          </div>
+          <p>La ruta sur se muestra como tren/AVE. Toledo y Alcala de Henares aparecen como excursiones de dia desde Madrid.</p>
+        </div>
+        <div class="map-shell">
+          <div class="map-stage" aria-label="Mapa animado de la ruta por Espana">
+            <div id="routeMap" role="img" aria-label="Mapa interactivo de Espana con la ruta SPAN2031"></div>
+            <div class="map-legend">
+              <span class="legend-line">Train / AVE</span>
+              <span class="legend-line day">Day trip</span>
+            </div>
+          </div>
+          <aside class="map-side">
+            <div class="map-card">
+              <img id="mapPhoto" src="" alt="">
+              <div class="map-card-body">
+                <h3 id="mapCity">Madrid</h3>
+                <div class="muted" id="mapDate">27 May</div>
+                <p id="mapActivity">Llegada, descanso y orientacion inicial.</p>
+                <div class="map-meta" id="mapTags"></div>
+                <p class="credit" id="mapCredit"></p>
+              </div>
+            </div>
+            <div class="map-controls">
+              <button type="button" id="prevStep" aria-label="Previous route step">Prev</button>
+              <button type="button" id="playRoute" class="primary" aria-label="Play or pause route animation">Play</button>
+              <button type="button" id="nextStep" aria-label="Next route step">Next</button>
+              <button type="button" id="showFullRoute">Full route</button>
+              <select id="citySelect" aria-label="Select city"></select>
+            </div>
+            <div class="notice">Los vuelos Hong Kong-Madrid-Hong Kong aparecen en la cabecera. El mapa principal se concentra en la ruta academica dentro de Espana.</div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="ruta">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-teacher">Fotografias</div>
+            <h2>Ruta visual</h2>
+          </div>
+          <p>Imagenes abiertas con enlace y credito visible. Pueden sustituirse por fotografias propias cuando esten disponibles.</p>
+        </div>
+        <div class="route-grid" id="routeCards"></div>
+      </section>
+
+      <section id="dia-a-dia">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-teacher">Calendario</div>
+            <h2>Dia a dia</h2>
+          </div>
+          <p>Itinerario preliminar con carga reducida en llegada y salida. Usa los filtros para revisar dias por ciudad.</p>
+        </div>
+        <div class="timeline-toggle-row">
+          <button class="view-toggle-btn active" type="button" data-view-toggle data-view-group="teacher-days" data-view="list">Lista</button>
+          <button class="view-toggle-btn" type="button" data-view-toggle data-view-group="teacher-days" data-view="timeline">L&#237;nea de tiempo</button>
+        </div>
+        <div data-view-panel="teacher-days" data-view-name="list">
+          <div class="filter-row" id="dayFilters"></div>
+          <div class="day-list" id="dayList"></div>
+        </div>
+        <div data-view-panel="teacher-days" data-view-name="timeline" hidden>
+          <div id="teacherTimeline"></div>
+        </div>
+      </section>
+
+      <section id="academico">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-teacher">SPAN2031</div>
+            <h2>Diseno academico</h2>
+          </div>
+          <p>El viaje combina preparacion previa, aprendizaje situado en Espana y produccion posterior de un informe multimodal en espanol.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="panel">
+            <h3>Antes del viaje</h3>
+            <ul>
+              <li>Vocabulario de arte, ciudad, patrimonio, transporte y comida.</li>
+              <li>Contexto historico-cultural de Madrid, Toledo, Alcala, Granada y Cordoba.</li>
+              <li>Preparacion de tareas tipo quest y pequenas intervenciones individuales.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Durante el viaje</h3>
+            <ul>
+              <li>Visitas breves, visuales y graduadas para nivel B1.3.</li>
+              <li>Observacion, documentacion, interaccion linguistica y uso funcional del espanol.</li>
+              <li>Recogida de evidencias para el informe multimodal final.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Despues del viaje</h3>
+            <ul>
+              <li>Organizacion de notas, fotografias y registros audiovisuales.</li>
+              <li>Reflexion critica en espanol.</li>
+              <li>Informe multimodal final y posible presentacion o intervencion breve.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="logistica">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-teacher">Operacion</div>
+            <h2>Logistica y presupuesto</h2>
+          </div>
+          <p>Informacion preliminar pendiente de presupuestos reales y confirmacion administrativa.</p>
+        </div>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>Agencia y transporte</h3>
+            <ul>
+              <li>Solicitar tres presupuestos comparables.</li>
+              <li>Vuelos en clase economica, directo si el precio es razonable.</li>
+              <li>Priorizar tren rapido/AVE para Madrid-Granada-Cordoba-Madrid.</li>
+              <li>Transporte urbano a pie y transporte publico; taxis solo por necesidad.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Alojamiento y comidas</h3>
+            <ul>
+              <li>Alojamiento centrico, sencillo, seguro y economico.</li>
+              <li>Habitaciones compartidas por genero para estudiantes.</li>
+              <li>Habitacion individual para el profesor acompanante.</li>
+              <li>Comidas no incluidas; referencia orientativa de 35 EUR diarios.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="seguridad">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-teacher">Riesgo</div>
+            <h2>Seguridad y convivencia</h2>
+          </div>
+          <p>Normas claras antes de la salida, disponibles en la web y en tarjeta de emergencia en papel.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="panel">
+            <h3>Comunicacion</h3>
+            <ul>
+              <li>Telefono con datos moviles activo durante todo el viaje.</li>
+              <li>WhatsApp como canal principal del grupo.</li>
+              <li>Tarjeta de emergencia con alojamiento, profesor, seguro y contactos.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Tiempo libre</h3>
+            <ul>
+              <li>Moverse en grupos de al menos 3 personas.</li>
+              <li>No desplazarse solo por la noche.</li>
+              <li>Hora recomendada de regreso y pautas de seguridad por zona.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Incidencias</h3>
+            <ul>
+              <li>El estudiante asume costes por perdidas o retrasos propios.</li>
+              <li>Plan para enfermedad leve en alojamiento y enfermedad seria con seguro/HKU.</li>
+              <li>Atencion especial a calor, cansancio y robos menores.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="administracion">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-teacher">HKU / SMLC</div>
+            <h2>Administracion</h2>
+          </div>
+          <p>La informacion financiera se presenta como preliminar y debe confirmarse con School administrators y Finance Office.</p>
+        </div>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>Pagos y reembolsos</h3>
+            <ul>
+              <li>Los gastos de Faculty Field Trips se gestionan normalmente por reembolso.</li>
+              <li>Claims dentro de los 30 dias posteriores al viaje.</li>
+              <li>Recibos, facturas y boarding passes originales son esenciales.</li>
+              <li>Deposito preliminar sujeto a confirmacion administrativa.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Seguro y formularios</h3>
+            <ul>
+              <li>Confirmar cobertura del Group Travel Insurance Policy para estudiantes y staff.</li>
+              <li>Los seguros privados adicionales no se asumen como reembolsables.</li>
+              <li>Staff viajero: Overseas Travelling Application Form antes del viaje.</li>
+              <li>Custodia cuidadosa de datos medicos, pasaportes y contactos de emergencia.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="signup-banner">
+          <div>
+            <h3>Formulario de inscripci&#243;n</h3>
+            <p>Recoge el inter&#233;s formal de los estudiantes: datos personales, alergias, restricciones alimentarias y aceptaci&#243;n de condiciones antes de confirmar plazas. <strong>Actualiza el enlace con la URL de Google Forms real.</strong></p>
+          </div>
+          <a class="signup-btn" href="https://forms.gle/ACTUALIZAR-URL" target="_blank" rel="noreferrer">Abrir formulario &#8599;</a>
+        </div>
+      </section>
+
+      <section id="checklist">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-teacher">Seguimiento</div>
+            <h2>Checklist docente</h2>
+          </div>
+          <p>Los checks se guardan en este navegador con localStorage. Son una ayuda de trabajo, no un registro oficial.</p>
+        </div>
+        <div class="checklist-progress">
+          <div class="progress-track">
+            <div class="progress-fill" id="checklistProgressFill" style="width: 0%"></div>
+          </div>
+          <span class="progress-text" id="checklistProgressText">0 / 0 completados · 0%</span>
+        </div>
+        <div class="checklist" id="teacherChecklist"></div>
+        <div class="print-tools">
+          <button class="print-button" type="button" onclick="window.print()">Print / PDF</button>
+        </div>
+      </section>
+    </article>
+
+    <article class="tab-panel" id="students" role="tabpanel" lang="es">
+      <section id="student-overview">
+        <div class="student-hero">
+          <div class="panel">
+            <div class="eyebrow">Estudiantes</div>
+            <h2>Resumen del viaje a España</h2>
+            <p>Este viaje forma parte de SPAN2031. Aprenderas sobre historia, cultura y vida cotidiana en España mediante visitas guiadas, tareas breves in situ, observacion, fotografias, notas y un informe multimodal final en español.</p>
+            <p>Las mañanas tendran actividades academicas. La mayoria de las tardes seran libres desde aproximadamente las 15:00 o 16:00, pero deberas usar ese tiempo de forma responsable y seguir recogiendo material para tu trabajo final.</p>
+          </div>
+          <div class="panel">
+            <h3>Datos clave</h3>
+            <ul>
+              <li>Fechas: 26 de mayo-9 de junio de 2027.</li>
+              <li>Ruta: Hong Kong, Madrid, Granada, Cordoba, Madrid.</li>
+              <li>Excursiones desde Madrid: Toledo y Alcala de Henares.</li>
+              <li>Nivel aproximado: B1.3.</li>
+              <li>Las comidas no estan incluidas. Calcula unos 35 EUR al dia.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="student-nav-cards student-nav-spaced">
+          <a href="#student-route">Mapa y ruta</a>
+          <a href="#student-itinerary">Itinerario</a>
+          <a href="#student-bring">Que llevar</a>
+          <a href="#student-safety">Seguridad</a>
+        </div>
+        <div class="signup-banner">
+          <div>
+            <h3>Inscripci&#243;n de inter&#233;s</h3>
+            <p>Confirma tu participaci&#243;n, datos personales, alergias y restricciones alimentarias mediante el formulario oficial antes de que se cierren las plazas.</p>
+          </div>
+          <a class="signup-btn" href="https://forms.gle/ACTUALIZAR-URL" target="_blank" rel="noreferrer">Formulario &#8599;</a>
+        </div>
+      </section>
+
+      <section id="student-route">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-student">Ruta visual</div>
+            <h2>Mapa, trenes y lugares principales</h2>
+          </div>
+          <p>La ruta principal hacia el sur se hara en tren/AVE. Toledo y Alcala de Henares seran excursiones de dia desde Madrid.</p>
+        </div>
+        <div class="student-map-shell">
+          <div class="student-route-map" id="studentRouteMap" aria-label="Mapa de la ruta para estudiantes"></div>
+          <div class="panel">
+            <h3>Como leer la ruta</h3>
+            <ul>
+              <li><strong>Tren/AVE:</strong> Madrid -> Granada -> Cordoba -> Madrid.</li>
+              <li><strong>Excursiones:</strong> Madrid -> Toledo -> Madrid y Madrid -> Alcala de Henares -> Madrid.</li>
+              <li><strong>Base final:</strong> Madrid, con visitas urbanas, museos, mercados y cierre academico.</li>
+              <li><strong>Vuelos:</strong> Hong Kong-Madrid-Hong Kong, segun combinacion final de la agencia.</li>
+            </ul>
+            <p class="muted">El horario exacto dependera de reservas, trenes, alojamiento y vuelos confirmados.</p>
+          </div>
+        </div>
+        <div class="route-grid student-route-photos" id="studentRouteCards"></div>
+      </section>
+
+      <section id="student-itinerary">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-student">Plan diario</div>
+            <h2>Itinerario</h2>
+          </div>
+          <p>La version final puede cambiar cuando se confirmen reservas, vuelos, trenes y alojamientos. Los dias de llegada y salida tendran menos carga academica.</p>
+        </div>
+        <div class="timeline-toggle-row">
+          <button class="view-toggle-btn active" type="button" data-view-toggle data-view-group="student-days" data-view="list">Lista</button>
+          <button class="view-toggle-btn" type="button" data-view-toggle data-view-group="student-days" data-view="timeline">L&#237;nea de tiempo</button>
+        </div>
+        <div data-view-panel="student-days" data-view-name="list">
+          <div class="day-list" id="studentDayList"></div>
+        </div>
+        <div data-view-panel="student-days" data-view-name="timeline" hidden>
+          <div id="studentTimeline"></div>
+        </div>
+      </section>
+
+      <section id="student-weather">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-student">Preparaci&#243;n</div>
+            <h2>Clima en mayo-junio</h2>
+          </div>
+          <p>Referencia orientativa para el equipaje. En mayo-junio Espa&#241;a puede ser muy c&#225;lida, especialmente en el sur.</p>
+        </div>
+        <div class="weather-table-wrap">
+          <table class="weather-table" aria-label="Temperatura y lluvia por ciudad">
+            <thead>
+              <tr>
+                <th>Ciudad</th>
+                <th>Fechas</th>
+                <th>M&#225;x.</th>
+                <th>M&#237;n.</th>
+                <th>Lluvia</th>
+                <th>Consejo pr&#225;ctico</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Madrid</strong></td>
+                <td>27&#8211;28 May &amp; 31 May&#8211;9 Jun</td>
+                <td class="temp-max">26&#8211;31 &#176;C</td>
+                <td class="temp-min">13&#8211;17 &#176;C</td>
+                <td><span class="weather-icon">&#127782;</span> 4&#8211;7 d&#237;as/mes</td>
+                <td>Protecci&#243;n solar, ropa ligera y capas para la noche</td>
+              </tr>
+              <tr>
+                <td><strong>Granada</strong></td>
+                <td>28&#8211;30 May</td>
+                <td class="temp-max">29&#8211;33 &#176;C</td>
+                <td class="temp-min">13&#8211;16 &#176;C</td>
+                <td><span class="weather-icon">&#9728;&#65039;</span> 2&#8211;3 d&#237;as/mes</td>
+                <td>Calor notable. Botella de agua imprescindible</td>
+              </tr>
+              <tr>
+                <td><strong>C&#243;rdoba</strong></td>
+                <td>30&#8211;31 May</td>
+                <td class="temp-max">32&#8211;36 &#176;C</td>
+                <td class="temp-min">15&#8211;19 &#176;C</td>
+                <td><span class="weather-icon">&#9728;&#65039;</span> 2&#8211;3 d&#237;as/mes</td>
+                <td>Muy calurosa en junio. Sombrero y protecci&#243;n solar alta</td>
+              </tr>
+              <tr>
+                <td><strong>Toledo</strong></td>
+                <td>4 Jun (excursi&#243;n)</td>
+                <td class="temp-max">28&#8211;32 &#176;C</td>
+                <td class="temp-min">13&#8211;16 &#176;C</td>
+                <td><span class="weather-icon">&#127780;&#65039;</span> 4&#8211;5 d&#237;as/mes</td>
+                <td>Ciudad en alto y expuesta al sol. Gorra imprescindible</td>
+              </tr>
+              <tr>
+                <td><strong>Alcal&#225; de Henares</strong></td>
+                <td>3 Jun (excursi&#243;n)</td>
+                <td class="temp-max">27&#8211;30 &#176;C</td>
+                <td class="temp-min">13&#8211;16 &#176;C</td>
+                <td><span class="weather-icon">&#127780;&#65039;</span> 4&#8211;5 d&#237;as/mes</td>
+                <td>Similar a Madrid. Calzado c&#243;modo para largas caminatas</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="weather-tip">&#9888;&#65039; <strong>Aviso calor:</strong> C&#243;rdoba y Granada en mayo-junio pueden superar los 35 &#176;C. Planifica las actividades exteriores preferentemente por la ma&#241;ana y lleva siempre agua.</p>
+      </section>
+
+      <section id="student-bring">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-student">Preparacion</div>
+            <h2>Que llevar</h2>
+          </div>
+        </div>
+        <div class="grid cols-3">
+          <div class="panel"><h3>Documentos</h3><ul><li>Pasaporte y copia digital.</li><li>Documentos de viaje y boarding passes.</li><li>Tarjeta de emergencia entregada antes de la salida.</li></ul></div>
+          <div class="panel"><h3>Kit diario</h3><ul><li>Telefono con datos moviles.</li><li>Calzado comodo.</li><li>Botella de agua reutilizable.</li><li>Proteccion solar y ropa ligera.</li></ul></div>
+          <div class="panel"><h3>Material de trabajo</h3><ul><li>Cuaderno o app de notas.</li><li>Camara o espacio suficiente en el movil para fotos.</li><li>Lista de vocabulario en español.</li><li>Carpeta pequena para recibos.</li></ul></div>
+        </div>
+      </section>
+
+      <section id="student-safety">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-student">Normas</div>
+            <h2>Seguridad</h2>
+          </div>
+        </div>
+        <div class="grid cols-3">
+          <div class="panel"><h3>Mantente conectado/a</h3><p>Lleva el telefono cargado y con datos moviles activos. WhatsApp sera el canal principal de comunicacion del grupo.</p></div>
+          <div class="panel"><h3>Muevete en grupo</h3><p>Durante el tiempo libre, muevete en grupos de al menos 3 personas. No te desplaces solo/a por la noche.</p></div>
+          <div class="panel"><h3>Cuida tus pertenencias</h3><p>Eres responsable de tu pasaporte, telefono, cartera, tarjetas, entradas, billetes y objetos personales.</p></div>
+        </div>
+      </section>
+
+      <section id="student-assessment">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-student">Coursework</div>
+            <h2>Evaluacion</h2>
+          </div>
+        </div>
+        <div class="panel">
+          <p>La evaluacion se centrara en la preparacion, la participacion activa, las tareas in situ, el uso del español, la documentacion de la experiencia y un informe multimodal final en español. Tambien podras preparar una breve intervencion individual vinculada a una visita.</p>
+        </div>
+      </section>
+
+      <section id="student-tasks">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-student">Trabajo de campo</div>
+            <h2>Tareas diarias</h2>
+          </div>
+        </div>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>Ejemplos</h3>
+            <ul>
+              <li>Buscar detalles concretos en una plaza, museo, mercado o monumento.</li>
+              <li>Fotografiar detalles arquitectonicos o culturales y explicarlos despues.</li>
+              <li>Comparar un espacio publico español con un espacio publico de Hong Kong.</li>
+              <li>Identificar palabras nuevas en carteles, menus, estaciones y museos.</li>
+            </ul>
+          </div>
+          <div class="panel">
+            <h3>Evidencias</h3>
+            <ul>
+              <li>Notas breves en español.</li>
+              <li>Fotos con pies de foto.</li>
+              <li>Pequenos registros de audio/video cuando sea apropiado.</li>
+              <li>Reflexiones para el informe multimodal final.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section id="student-costs">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-student">Dinero</div>
+            <h2>Costes y responsabilidad</h2>
+          </div>
+        </div>
+        <div class="grid cols-2">
+          <div class="panel">
+            <h3>Comidas</h3>
+            <p>Las comidas y bebidas no estan incluidas. Calcula unos 35 EUR al dia para desayunos sencillos, menus del dia, bocadillos, supermercados, mercados y cenas informales.</p>
+          </div>
+          <div class="panel">
+            <h3>Costes personales</h3>
+            <p>Eres responsable de compras personales, actividades opcionales, transporte durante el tiempo libre, entradas o documentos perdidos y costes causados por retrasos propios.</p>
+          </div>
+        </div>
+        <div class="finance-tools">
+          <div class="finance-card">
+            <h3>Conversor HKD &#8596; EUR</h3>
+            <div class="finance-row">
+              <label class="finance-label" for="convHKD">HKD</label>
+              <input class="finance-input" type="number" id="convHKD" placeholder="1000" min="0">
+              <span class="finance-arrow">&#8594;</span>
+              <input class="finance-input" type="number" id="convEUR" placeholder="EUR" min="0">
+              <label class="finance-label" for="convEUR">EUR</label>
+            </div>
+            <div class="finance-row">
+              <label class="finance-label" for="convRate">Cambio</label>
+              <input class="finance-input" type="number" id="convRate" value="8.60" step="0.01" min="1">
+              <span class="rate-note">HKD por 1 EUR (orientativo)</span>
+            </div>
+            <p class="rate-note">Tipo de cambio orientativo &#183; actualiza el valor seg&#250;n la fecha del viaje.</p>
+          </div>
+          <div class="finance-card">
+            <h3>Calculadora de presupuesto</h3>
+            <div class="finance-row">
+              <label class="finance-label" for="budgetDays">D&#237;as</label>
+              <input class="finance-input" type="number" id="budgetDays" value="15" min="1" max="30">
+            </div>
+            <div class="finance-row">
+              <label class="finance-label" for="budgetEurDay">EUR/d&#237;a</label>
+              <input class="finance-input" type="number" id="budgetEurDay" value="35" min="0">
+            </div>
+            <div class="finance-row">
+              <label class="finance-label" for="budgetExtra">Extras (EUR)</label>
+              <input class="finance-input" type="number" id="budgetExtra" value="0" min="0" placeholder="museos, souvenirs&#8230;">
+            </div>
+            <div class="finance-row">
+              <label class="finance-label" for="budgetRate">HKD/EUR</label>
+              <input class="finance-input" type="number" id="budgetRate" value="8.60" step="0.01" min="1">
+            </div>
+            <div class="finance-result" id="budgetResult">525 EUR &#8776; 4&#8239;515 HKD</div>
+          </div>
+        </div>
+      </section>
+
+      <section id="student-emergency">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow eyebrow-student">Informacion practica</div>
+            <h2>Emergencias</h2>
+          </div>
+          <p>Los contactos finales del profesor, alojamientos y seguro se anadiran cuando esten confirmados. En una emergencia real en España, llama primero al 112.</p>
+        </div>
+        <div class="grid cols-3">
+          <div class="panel"><h3>Contactos del viaje</h3><p>[Telefono / WhatsApp del profesor]</p><p>[Direcciones de alojamientos en Madrid, Granada y Cordoba]</p><p>[Datos del seguro HKU]</p></div>
+          <div class="panel"><h3>Numeros de emergencia</h3><ul><li><strong>112</strong>: emergencias generales, policia, bomberos y asistencia sanitaria. Si dudas, llama al 112.</li><li><strong>091</strong>: Policia Nacional.</li><li><strong>092</strong>: Policia Local.</li><li><strong>062</strong>: Guardia Civil.</li><li><strong>061</strong>: urgencias sanitarias, cuando este disponible.</li><li><strong>080 / 085</strong>: bomberos, segun zona.</li></ul><p class="credit">Fuente principal: <a href="https://administracion.gob.es/pag_Home/en/Tu-espacio-europeo/derechos-obligaciones/ciudadanos/asistencia-sanitaria/numeros-urgencia.html" target="_blank" rel="noreferrer">Administracion.gob.es, 112 en España</a>.</p></div>
+          <div class="panel"><h3>Que decir al llamar</h3><ul><li>Tu nombre y que eres estudiante de HKU.</li><li>Ciudad, direccion exacta o punto de referencia.</li><li>Que ha pasado y cuantas personas necesitan ayuda.</li><li>Telefono de contacto y si hay alguien herido.</li><li>Despues, avisa al profesor por WhatsApp o llamada.</li></ul></div>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a href="https://spanish.hku.hk/" target="_blank" rel="noreferrer" class="footer-logo-link" aria-label="Spanish Programme &#8211; The University of Hong Kong">
+        <img src="logosp.webp" alt="Spanish Programme HKU" class="footer-logo-sp">
+      </a>
+      <div class="footer-sep" role="separator"></div>
+      <img src="SMLCLogo_edited.webp" alt="School of Modern Languages and Cultures &#8211; HKU" class="footer-logo-smlc">
+      <div class="footer-sep" role="separator"></div>
+      <div>
+        <a href="https://spanish.hku.hk/" target="_blank" rel="noreferrer" class="footer-programme-link">Spanish Programme &#8211; The University of Hong Kong &#8599;</a>
+        <p class="footer-copy">SPAN2031 Spain Field Trip 2027 &#183; School of Modern Languages and Cultures</p>
+      </div>
+    </div>
+  </footer>
+
+  <dialog id="lightbox" aria-label="Image preview">
+    <div class="lightbox-body">
+      <button class="lightbox-close" type="button" aria-label="Close image preview">x</button>
+      <img id="lightboxImage" src="" alt="">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </dialog>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
