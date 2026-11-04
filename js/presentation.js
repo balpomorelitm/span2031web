@@ -78,6 +78,11 @@
   });
   if (typeof trip.datesLabel === 'string') document.querySelectorAll('[data-trip="dates"]').forEach(element => { element.textContent = trip.datesLabel; });
   if (trip.verifiedOn) document.querySelectorAll('[data-verified-on]').forEach(element => { element.textContent = trip.verifiedOn; });
+  if (trip.languages) {
+    if (trip.languages.main) document.querySelectorAll('[data-language="recommendation"]').forEach(element => { element.textContent = trip.languages.main; });
+    if (trip.languages.note) document.querySelectorAll('[data-language="academicWork"]').forEach(element => { element.textContent = trip.languages.note; });
+  }
+  if (trip.accommodation && trip.accommodation.title) document.querySelectorAll('[data-accommodation-title]').forEach(element => { element.textContent = trip.accommodation.title; });
 
   const preview = document.getElementById('web-preview');
   const showPreviewFallback = () => {

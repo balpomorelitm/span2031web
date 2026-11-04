@@ -25,5 +25,22 @@
   "assets/images/site-qr.svg",
   "assets/images/web-preview.webp",
   "assets/downloads/GLAS3112-Spain-2027.pdf",
-  "assets/downloads/GLAS3112-Spain-2027-offline.zip"
+  "assets/downloads/GLAS3112-Spain-2027-offline.zip",
+  "css/glas-fonts.css",
+  "assets/branding/glas-logo-white.png",
+  "assets/branding/README.txt",
+  "assets/fonts/wix-madefor-display-latin.woff2",
+  "assets/fonts/wix-madefor-display-latin-ext.woff2",
+  "assets/fonts/wix-madefor-text-latin.woff2",
+  "assets/fonts/wix-madefor-text-latin-ext.woff2",
+  "assets/fonts/OFL.txt",
+  "assets/fonts/README.txt",
+  "assets/vendor/leaflet/leaflet.js",
+  "assets/vendor/leaflet/leaflet.css",
+  "assets/vendor/leaflet/LICENSE",
+  "assets/vendor/leaflet/images/layers.png",
+  "assets/vendor/leaflet/images/layers-2x.png",
+  "assets/vendor/leaflet/images/marker-icon.png",
+  "assets/vendor/leaflet/images/marker-icon-2x.png",
+  "assets/vendor/leaflet/images/marker-shadow.png"
 ]
