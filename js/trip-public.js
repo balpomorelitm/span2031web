@@ -8,8 +8,8 @@ window.TRIP = Object.freeze({
   startDate: '2027-05-26', endDate: '2027-06-09',
   groupLabel: '10–14 students',
   url: 'https://balpomorelitm.github.io/span2031web/estudiantes.html',
-  contact: 'pablot@hku.hk,martinjg@hku.hk',
-  coordinators: ['Pablo Torrado Solo de Zaldivar', 'Martín Juaristi'],
+  contact: 'martinjg@hku.hk,pablot@hku.hk',
+  coordinators: ['Martín Juaristi', 'Pablo Torrado Solo de Zaldivar'],
   verifiedOn: '4 November 2026',
   stages: [
     {id:'madrid',city:'Madrid',title:'A city to read',subtitle:'Art · identity · everyday life',description:'Explore how museums, public spaces and neighbourhoods tell different stories about Spain. Planned activities include the Prado, the historic centre and observation of urban life.',image:'assets/images/madrid-plaza-mayor.jpg',coords:[40.4168,-3.7038]},
