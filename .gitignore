@@ -2,3 +2,13 @@
 ~$*
 .DS_Store
 Thumbs.db
+/.vscode/
+/docs/
+/tmp/
+/output/
+/_site/
+/*backup*.html
+/index-B0522-Pablo.html
+/Requisitos.md
+/*.pdf
+/*.zip
