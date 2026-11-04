@@ -1,0 +1,6 @@
+[build]
+  command = "node tools/check.mjs && node tools/build.mjs"
+  publish = "_site"
+
+[build.environment]
+  NODE_VERSION = "24"

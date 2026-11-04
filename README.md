@@ -4,6 +4,8 @@ Public student website and 12-slide English presentation for HKU’s proposed La
 
 - Website: https://balpomorelitm.github.io/span2031web/estudiantes.html
 - Presentation: https://balpomorelitm.github.io/span2031web/presentacion.html
+- Netlify sharing link: https://glas3112-spain-2027.netlify.app/
+- Netlify presentation: https://glas3112-spain-2027.netlify.app/presentacion.html
 - The root URL redirects to the student website. The former public staff landing page has been replaced; staff material is maintained separately outside this public repository.
 
 ## Content
@@ -35,6 +37,8 @@ After editing public data or slides:
 3. Run `python tools/package-offline.py` to refresh the ZIP (Python standard library only).
 4. Run `node tools/check.mjs` and `node tools/build.mjs` (Node 24).
 5. Inspect the staged diff and publish only the intended public files. Never add internal documents, mail drafts or staff data.
+
+For Netlify, `netlify.toml` sets Node 24, runs the public checks/build and publishes only `_site`. The local Netlify project association is kept in ignored `.netlify/state.json`. After a reviewed build, `netlify deploy --prod --dir=_site` updates the same sharing link.
 
 ## Deployment boundary
 
