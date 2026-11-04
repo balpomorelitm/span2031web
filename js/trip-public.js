@@ -20,8 +20,9 @@ window.TRIP = Object.freeze({
   ],
   languages: {
     title:'Learning en español and in English',
+    heading:{before:'Learning',spanish:'en español',after:'and in English'},
     main:'Previous knowledge of Spanish is not essential, but recommended.',
-    note:'Academic work can be done in English.'
+    note:'Academic work can be done in English if you lack proficiency in Spanish.'
   },
   accommodation: {
     title:'Budget rooms for two to four students',

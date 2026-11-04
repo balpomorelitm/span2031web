@@ -28,7 +28,13 @@
   menu.addEventListener('click', () => {const open=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(open));nav.classList.toggle('open',open);});
   nav.addEventListener('click', event => {if(event.target.closest('a')) closeMenu();});
   document.addEventListener('keydown', event => {if(event.key==='Escape') closeMenu();});
-  for (const [id,value] of Object.entries({languageTitle:trip.languages?.title,languageMain:trip.languages?.main,languageNote:trip.languages?.note,accommodationTitle:trip.accommodation?.title,accommodationDescription:trip.accommodation?.description,accommodationHomestays:trip.accommodation?.homestays})) if(value) $(id).textContent=value;
+  const languageHeading=trip.languages?.heading;
+  if(languageHeading){
+    const spanish=document.createElement('span');
+    spanish.className='language-spanish';spanish.lang='es';spanish.textContent=languageHeading.spanish;
+    $('languageTitle').replaceChildren(document.createTextNode(languageHeading.before+' '),spanish,document.createTextNode(' '+languageHeading.after));
+  }
+  for (const [id,value] of Object.entries({languageMain:trip.languages?.main,languageNote:trip.languages?.note,accommodationTitle:trip.accommodation?.title,accommodationDescription:trip.accommodation?.description,accommodationHomestays:trip.accommodation?.homestays})) if(value) $(id).textContent=value;
 
   function updateCountdown() {
     const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Hong_Kong',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date()).filter(part=>part.type!=='literal').map(part=>[part.type,part.value]));
