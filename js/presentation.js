@@ -72,9 +72,20 @@
     }
   }
   if (trip.url) document.querySelectorAll('[data-site-url]').forEach(link => { link.href = trip.url; });
-  if (trip.contact) document.querySelectorAll('[data-contact]').forEach(link => {
-    link.textContent = trip.contact;
-    link.href = `mailto:${trip.contact}`;
+  const contactEmails = (Array.isArray(trip.contacts)
+    ? trip.contacts.map(contact => typeof contact === 'string' ? contact : contact.email)
+    : String(trip.contact || '').split(','))
+    .filter(email => typeof email === 'string' && email.trim())
+    .map(email => email.trim());
+  if (contactEmails.length) document.querySelectorAll('[data-contact-list]').forEach(list => {
+    list.replaceChildren();
+    for (const email of new Set(contactEmails)) {
+      const link = document.createElement('a');
+      link.className = 'contact-email';
+      link.textContent = email;
+      link.href = `mailto:${email}`;
+      list.append(link);
+    }
   });
   if (typeof trip.datesLabel === 'string') document.querySelectorAll('[data-trip="dates"]').forEach(element => { element.textContent = trip.datesLabel; });
   if (trip.verifiedOn) document.querySelectorAll('[data-verified-on]').forEach(element => { element.textContent = trip.verifiedOn; });

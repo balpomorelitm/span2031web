@@ -8,7 +8,7 @@ window.TRIP = Object.freeze({
   startDate: '2027-05-26', endDate: '2027-06-09',
   groupLabel: '10–14 students',
   url: 'https://balpomorelitm.github.io/span2031web/estudiantes.html',
-  contact: 'martinjg@hku.hk',
+  contact: 'pablot@hku.hk,martinjg@hku.hk',
   coordinators: ['Pablo Torrado Solo de Zaldivar', 'Martín Juaristi'],
   verifiedOn: '4 November 2026',
   stages: [
