@@ -42,5 +42,21 @@
   "assets/vendor/leaflet/images/layers-2x.png",
   "assets/vendor/leaflet/images/marker-icon.png",
   "assets/vendor/leaflet/images/marker-icon-2x.png",
-  "assets/vendor/leaflet/images/marker-shadow.png"
+  "assets/vendor/leaflet/images/marker-shadow.png",
+  "css/city-maps.css",
+  "css/presenter.css",
+  "js/presenter-notes.js",
+  "js/presenter.js",
+  "assets/images/map-granada.svg",
+  "assets/images/map-cordoba.svg",
+  "assets/images/map-madrid.svg",
+  "assets/images/granada-cathedral.jpg",
+  "assets/images/granada-darro.jpg",
+  "assets/images/cordoba-juderia.jpg",
+  "assets/images/cordoba-bridge.jpg",
+  "assets/images/cordoba-alcazar.jpg",
+  "assets/images/madrid-reina-sofia.jpg",
+  "js/presentation-route.js",
+  "css/presentation-route.css",
+  "assets/images/route-bus.svg"
 ]

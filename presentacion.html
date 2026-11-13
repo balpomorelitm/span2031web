@@ -3,18 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
   <meta name="theme-color" content="#122345">
   <meta name="description" content="GLAS3112 Spain 2027. A photographic introduction to the proposed field trip, learning activities, personal budget and student website.">
   <title>Spain 2027 · GLAS3112</title>
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <link rel="stylesheet" href="css/glas-fonts.css">
   <link rel="stylesheet" href="css/presentation.css">
+  <link rel="stylesheet" href="css/city-maps.css">
+  <link rel="stylesheet" href="css/presenter.css">
+  <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="css/presentation-route.css">
   <script src="js/trip-public.js" defer></script>
+  <script src="assets/vendor/leaflet/leaflet.js" defer></script>
+  <script src="js/presenter-notes.js" defer></script>
+  <script src="js/presenter.js" defer></script>
+  <script src="js/presentation-route.js" defer></script>
   <script src="js/presentation.js" defer></script>
 </head>
 <body>
   <a class="skip-presentation" href="#presentation-controls">Skip to presentation controls</a>
-  <main class="presentation" aria-label="GLAS3112 Spain 2027, twelve slides">
+  <main class="presentation" aria-label="GLAS3112 Spain 2027, fifteen slides">
     <div class="slide-stage" id="slide-stage">
 
       <section class="slide cover is-active" id="slide-1" aria-labelledby="title-1" data-title="Spain 2027">
@@ -42,12 +51,24 @@
           <div class="route-stat"><strong>15</strong><span>calendar days</span></div>
           <p class="route-group"><strong>10–14</strong> students<br><span data-trip="dates">26 May–9 June 2027</span></p>
         </div>
+        <!-- Route animation -->
+        <div class="presentation-route" id="presentation-route" data-map-state="diagram">
+          <div class="presentation-route-frame">
+            <div class="presentation-route-map" id="presentation-route-map" aria-label="Map of the six-stage journey through Spain"></div>
+            <svg class="presentation-route-diagram" viewBox="0 0 720 480" role="img" aria-labelledby="presentation-route-title presentation-route-description"><title id="presentation-route-title">The Spain field trip route</title><desc id="presentation-route-description">Madrid to Granada, Córdoba and back to Madrid, with return day trips to Alcalá de Henares and Toledo. Schematic connections, not exact public transport routes.</desc><path class="presentation-spain-shape" d="M110 75 185 42 310 62 410 44 560 82 604 153 572 224 585 300 505 369 443 416 320 426 206 390 155 303 142 220 106 171Z"></path><g id="presentation-route-lines"></g><g id="presentation-route-cities"></g><g id="presentation-route-traveller" class="presentation-traveller" transform="translate(340 155)"><image href="assets/images/route-bus.svg" x="-28" y="-35" width="56" height="42"/></g></svg>
+            <p class="presentation-route-badge" id="presentation-route-badge">Madrid → Granada → Córdoba → Madrid</p>
+            <p class="presentation-route-caption">Main circuit <span class="legend-day"></span> Return day trips · schematic connections</p>
+          </div>
+          <div class="presentation-route-controls" aria-label="Route animation controls"><button type="button" id="presentation-route-play" aria-pressed="false">Play route</button><button type="button" id="presentation-route-replay">Replay</button><button type="button" id="presentation-route-full">Full route</button><label class="sr-only" for="presentation-route-stage">Choose a route stage</label><select id="presentation-route-stage"></select><button type="button" id="presentation-route-view" hidden>Route diagram</button></div>
+          <p class="presentation-route-status" id="presentation-route-status" role="status" aria-live="polite">Full route · 6 stages</p>
+        </div>
+        <!-- /Route animation -->
         <div class="route-stages">
           <div class="route-stop"><span class="route-index">01</span><div><h3>Madrid</h3><p>Arrival and orientation</p></div></div>
           <div class="route-stop"><span class="route-index">02</span><div><h3>Granada</h3><p>The Alhambra and the Albaicín</p></div></div>
           <div class="route-stop"><span class="route-index">03</span><div><h3>Córdoba</h3><p>Heritage, diversity and memory</p></div></div>
           <div class="route-stop"><span class="route-index">04</span><div><h3>Madrid &amp; beyond</h3><p>City fieldwork, Toledo and Alcalá de Henares</p></div></div>
-          <p class="route-note">Travel from Hong Kong. Rail connections within Spain.<br>Proposed stages. Final timings and bookings to follow.</p>
+          <p class="route-note">Travel from Hong Kong. Public transport within Spain.<br>Proposed stages. Final timings and bookings to follow.</p>
         </div>
         <span class="slide-number">02</span>
       </section>
@@ -65,12 +86,28 @@
         <span class="slide-number">03</span>
       </section>
 
+      <section class="slide city-map-slide granada-map-slide" id="map-granada" aria-labelledby="map-title-granada" data-title="Granada · map" hidden>
+        <header class="city-map-heading"><p class="eyebrow">PLACES TO EXPLORE · PROPOSED</p><h2 id="map-title-granada">Granada</h2><p class="city-map-subtitle">Architecture, water and the life of a historic city</p></header>
+        <img class="city-street-map" src="assets/images/map-granada.svg" alt="North-up street map of Granada; numbered places correspond to the photographs">
+        <svg class="map-connections" viewBox="0 0 1600 900" aria-hidden="true"><g class="map-lines"><path d="M900.5 581.7 H1065.2 V665.0 H1230.0"/><path d="M797.7 435.5 H1013.9 V360.0 H1230.0"/><path d="M658.4 570.2 H514.2 V665.0 H370.0"/><path d="M816.0 504.3 H593.0 V360.0 H370.0"/></g><g class="map-markers"><g transform="translate(900.5,581.7)"><circle r="20"/><text text-anchor="middle" dy="7">01</text></g><g transform="translate(797.7,435.5)"><circle r="20"/><text text-anchor="middle" dy="7">02</text></g><g transform="translate(658.4,570.2)"><circle r="20"/><text text-anchor="middle" dy="7">03</text></g><g transform="translate(816.0,504.3)"><circle r="20"/><text text-anchor="middle" dy="7">04</text></g></g></svg>
+        <article class="map-place" style="left:1240px;top:535px"><img src="assets/images/granada-alhambra.jpg" alt="The Alhambra and its landscape"><span class="map-card-index">01</span><div><h3>Alhambra &amp; Generalife</h3><p>Palaces, gardens and water</p></div></article><article class="map-place" style="left:1240px;top:230px"><img src="assets/images/granada-albaicin.jpg" alt="The Albaicín neighbourhood in Granada"><span class="map-card-index">02</span><div><h3>Albaicín · San Nicolás</h3><p>A neighbourhood and its views</p></div></article><article class="map-place" style="left:60px;top:535px"><img src="assets/images/granada-cathedral.jpg" alt="The façade of Granada Cathedral"><span class="map-card-index">03</span><div><h3>Cathedral &amp; Royal Chapel</h3><p>The city after 1492</p></div></article><article class="map-place" style="left:60px;top:230px"><img src="assets/images/granada-darro.jpg" alt="The Carrera del Darro alongside the river"><span class="map-card-index">04</span><div><h3>Paseo del Darro</h3><p>River, streets and landscape</p></div></article>
+        <footer class="city-map-footer"><span>Proposed places · final visits and access to be confirmed</span><span>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> · <a href="assets/image-credits.html" target="_blank" rel="noopener">Photos &amp; map sources</a></span></footer>
+      </section>
+
       <section class="slide cordoba" id="slide-4" aria-labelledby="title-4" data-title="Córdoba" hidden>
         <img class="cordoba-photo" src="assets/images/cordoba-mezquita.jpg" alt="The arches and columns of the Mezquita-Catedral in Córdoba">
         <div class="cordoba-shade"></div>
         <div class="cordoba-title"><p class="eyebrow light">DIVERSITY, HERITAGE AND MEMORY</p><h2 id="title-4">Córdoba</h2></div>
         <div class="cordoba-bottom"><div><h3>The Mezquita-Catedral<br>and the historic city</h3><p>Architecture carries traces of different communities and periods.</p></div><p class="cordoba-question">Whose stories<br>do visitors hear?</p></div>
         <span class="slide-number light-number">04</span>
+      </section>
+
+      <section class="slide city-map-slide cordoba-map-slide" id="map-cordoba" aria-labelledby="map-title-cordoba" data-title="Córdoba · map" hidden>
+        <header class="city-map-heading"><p class="eyebrow">PLACES TO EXPLORE · PROPOSED</p><h2 id="map-title-cordoba">Córdoba</h2><p class="city-map-subtitle">Read the city through its buildings, streets and river</p></header>
+        <img class="city-street-map" src="assets/images/map-cordoba.svg" alt="North-up street map of Córdoba; numbered places correspond to the photographs">
+        <svg class="map-connections" viewBox="0 0 1600 900" aria-hidden="true"><g class="map-lines"><path d="M790.9 528.5 H1010.4 V360.0 H1230.0"/><path d="M695.8 482.2 H532.9 V360.0 H370.0"/><path d="M838.4 653.6 H1034.2 V665.0 H1230.0"/><path d="M695.8 616.5 H532.9 V665.0 H370.0"/></g><g class="map-markers"><g transform="translate(790.9,528.5)"><circle r="20"/><text text-anchor="middle" dy="7">01</text></g><g transform="translate(695.8,482.2)"><circle r="20"/><text text-anchor="middle" dy="7">02</text></g><g transform="translate(838.4,653.6)"><circle r="20"/><text text-anchor="middle" dy="7">03</text></g><g transform="translate(695.8,616.5)"><circle r="20"/><text text-anchor="middle" dy="7">04</text></g></g></svg>
+        <article class="map-place" style="left:1240px;top:230px"><img src="assets/images/cordoba-mezquita.jpg" alt="Arches inside the Mezquita-Catedral"><span class="map-card-index">01</span><div><h3>Mezquita-Catedral</h3><p>Layers of history and belief</p></div></article><article class="map-place" style="left:60px;top:230px"><img src="assets/images/cordoba-juderia.jpg" alt="A street in the historic centre of Córdoba"><span class="map-card-index">02</span><div><h3>Judería</h3><p>Streets and cultural memory</p></div></article><article class="map-place" style="left:1240px;top:535px"><img src="assets/images/cordoba-bridge.jpg" alt="Córdoba’s Roman Bridge over the Guadalquivir"><span class="map-card-index">03</span><div><h3>Puente Romano</h3><p>The city and the Guadalquivir</p></div></article><article class="map-place" style="left:60px;top:535px"><img src="assets/images/cordoba-alcazar.jpg" alt="The Alcázar de los Reyes Cristianos in Córdoba"><span class="map-card-index">04</span><div><h3>Alcázar</h3><p>Power, architecture and gardens</p></div></article>
+        <footer class="city-map-footer"><span>Proposed places · final visits and access to be confirmed</span><span>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> · <a href="assets/image-credits.html" target="_blank" rel="noopener">Photos &amp; map sources</a></span></footer>
       </section>
 
       <section class="slide destination madrid" id="slide-5" aria-labelledby="title-5" data-title="Madrid" hidden>
@@ -84,6 +121,15 @@
         </div>
         <img class="destination-photo" src="assets/images/madrid-plaza-mayor.jpg" alt="Plaza Mayor in Madrid">
         <span class="slide-number">05</span>
+      </section>
+
+      <section class="slide city-map-slide madrid-map-slide" id="map-madrid" aria-labelledby="map-title-madrid" data-title="Madrid & beyond · map" hidden>
+        <header class="city-map-heading"><p class="eyebrow">PLACES TO EXPLORE · PROPOSED</p><h2 id="map-title-madrid">Madrid & beyond</h2><p class="city-map-subtitle">Art, neighbourhoods and everyday life · plus two day trips</p></header>
+        <img class="city-street-map" src="assets/images/map-madrid.svg" alt="North-up street map of Madrid &amp; beyond; numbered places correspond to the photographs">
+        <svg class="map-connections" viewBox="0 0 1600 900" aria-hidden="true"><g class="map-lines"><path d="M959.3 485.9 H1094.6 V295.0 H1230.0"/><path d="M902.0 663.5 H1066.0 V500.0 H1230.0"/><path d="M785.1 467.9 H577.6 V500.0 H370.0"/><path d="M608.6 437.8 H489.3 V295.0 H370.0"/><path d="M599.5 645.5 H484.7 V705.0 H370.0"/></g><g class="map-markers"><g transform="translate(959.3,485.9)"><circle r="20"/><text text-anchor="middle" dy="7">01</text></g><g transform="translate(902.0,663.5)"><circle r="20"/><text text-anchor="middle" dy="7">02</text></g><g transform="translate(785.1,467.9)"><circle r="20"/><text text-anchor="middle" dy="7">03</text></g><g transform="translate(608.6,437.8)"><circle r="20"/><text text-anchor="middle" dy="7">04</text></g><g transform="translate(599.5,645.5)"><circle r="20"/><text text-anchor="middle" dy="7">05</text></g></g></svg>
+        <article class="map-place compact" style="left:1240px;top:205px"><img src="assets/images/madrid-prado.jpg" alt="The Museo del Prado in Madrid"><span class="map-card-index">01</span><div><h3>Museo del Prado</h3><p>Art and representation</p></div></article><article class="map-place compact" style="left:1240px;top:410px"><img src="assets/images/madrid-reina-sofia.jpg" alt="The exterior of the Museo Reina Sofía"><span class="map-card-index">02</span><div><h3>Reina Sofía</h3><p>Modern art and memory</p></div></article><article class="map-place compact" style="left:60px;top:410px"><img src="assets/images/madrid-street.jpg" alt="A street in Madrid’s Barrio de las Letras"><span class="map-card-index">03</span><div><h3>Barrio de las Letras</h3><p>Literature and urban life</p></div></article><article class="map-place compact" style="left:60px;top:205px"><img src="assets/images/madrid-plaza-mayor.jpg" alt="Plaza Mayor in Madrid"><span class="map-card-index">04</span><div><h3>Plaza Mayor</h3><p>A shared public space</p></div></article><article class="map-place compact" style="left:60px;top:615px"><img src="assets/images/madrid-rastro.jpg" alt="The street market at Ribera de Curtidores"><span class="map-card-index">05</span><div><h3>El Rastro</h3><p>Street market · proposed</p></div></article>
+        <aside class="map-region" aria-label="Day trips from Madrid"><h3>Day trips · separate scale</h3><svg class="regional-locator" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 104" role="img" aria-label="Regional locator: Alcalá is northeast of Madrid, Toledo southwest; separate scale"><circle cx="148.9" cy="37.8" r="5" fill="#1a6aff"/><text x="140.9" y="35.8" text-anchor="end" fill="#122345" font-size="19" font-family="Arial,sans-serif">Madrid</text><circle cx="164.2" cy="34.0" r="5" fill="#1a6aff"/><text x="172.2" y="29.0" text-anchor="start" fill="#122345" font-size="19" font-family="Arial,sans-serif">Alcalá</text><circle cx="134.4" cy="70.5" r="5" fill="#1a6aff"/><text x="142.4" y="76.5" text-anchor="start" fill="#122345" font-size="19" font-family="Arial,sans-serif">Toledo</text></svg><div class="region-photos"><div><img src="assets/images/toledo-panorama.jpg" alt="Toledo’s historic skyline"><strong>Toledo</strong><span>Historic city</span></div><div><img src="assets/images/alcala-university.jpg" alt="The historic university in Alcalá de Henares"><strong>Alcalá</strong><span>University · Cervantes</span></div></div></aside>
+        <footer class="city-map-footer"><span>Proposed places · final visits and access to be confirmed</span><span>© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a> · <a href="assets/image-credits.html" target="_blank" rel="noopener">Photos &amp; map sources</a></span></footer>
       </section>
 
       <section class="slide excursions" id="slide-6" aria-labelledby="title-6" data-title="Toledo and Alcalá" hidden>
@@ -117,7 +163,7 @@
 
       <section class="slide practical" id="slide-10" aria-labelledby="title-10" data-title="Practical arrangements" hidden>
         <img class="practical-photo" src="assets/images/madrid-street.jpg" alt="A street in Madrid's Barrio de las Letras">
-        <div class="practical-copy"><p class="eyebrow">TRAVELLING TOGETHER</p><h2 id="title-10">The practical side</h2><dl><div><dt data-accommodation-title>Budget rooms for two to four students</dt><dd data-accommodation>We are also exploring family homestays in Madrid only. Availability, prices and meal arrangements remain to be confirmed.</dd></div><div><dt>Rail and public transport</dt><dd>Expect train journeys between cities and walking during fieldwork.</dd></div><div><dt>Preparation</dt><dd>Check travel documents, insurance and your personal budget before committing.</dd></div><div><dt>Shared responsibility</dt><dd>Be punctual, follow staff guidance, respect local communities and collect evidence ethically.</dd></div></dl><p class="practical-note">Detailed arrangements and preparation guidance will appear on the student website.</p></div><span class="slide-number">10</span>
+        <div class="practical-copy"><p class="eyebrow">TRAVELLING TOGETHER</p><h2 id="title-10">The practical side</h2><dl><div><dt data-accommodation-title>Budget rooms for two to four students</dt><dd data-accommodation>We are also exploring family homestays in Madrid only. Availability, prices and meal arrangements remain to be confirmed.</dd></div><div><dt>Public transport</dt><dd>Expect public transport between cities and walking during fieldwork.</dd></div><div><dt>Preparation</dt><dd>Check travel documents, insurance and your personal budget before committing.</dd></div><div><dt>Shared responsibility</dt><dd>Be punctual, follow staff guidance, respect local communities and collect evidence ethically.</dd></div></dl><p class="practical-note">Detailed arrangements and preparation guidance will appear on the student website.</p></div><span class="slide-number">10</span>
       </section>
 
       <section class="slide website-demo" id="slide-11" aria-labelledby="title-11" data-title="The student website" hidden>
@@ -138,10 +184,10 @@
     <div class="presentation-progress" aria-hidden="true"><span id="presentation-progress-fill"></span></div>
     <a class="viewer-home" href="estudiantes.html" title="Open the student website">GLAS3112 <span>Spain 2027</span></a>
     <div class="slide-navigation"><button type="button" id="previous-slide" aria-label="Previous slide" title="Previous slide (Left arrow)">‹</button><label class="slide-select-label" for="slide-select">Slide</label><select id="slide-select" aria-label="Choose a slide"><option value="1">01 / 12 · Spain 2027</option><option value="2">02 / 12 · The route</option><option value="3">03 / 12 · Granada</option><option value="4">04 / 12 · Córdoba</option><option value="5">05 / 12 · Madrid</option><option value="6">06 / 12 · Toledo &amp; Alcalá</option><option value="7">07 / 12 · Learning in the field</option><option value="8">08 / 12 · Assessment &amp; language</option><option value="9">09 / 12 · Budget &amp; funding</option><option value="10">10 / 12 · Practical arrangements</option><option value="11">11 / 12 · The student website</option><option value="12">12 / 12 · Next steps</option></select><button type="button" id="next-slide" aria-label="Next slide" title="Next slide (Right arrow)">›</button></div>
-    <div class="viewer-tools"><button type="button" id="reading-view" aria-pressed="false" title="Show all slides in a scrollable reading view">Reading view</button><a href="assets/downloads/GLAS3112-Spain-2027.pdf" download title="Download the presentation as a PDF">PDF</a><button type="button" id="fullscreen" aria-label="Enter fullscreen" title="Fullscreen (F)">⛶</button></div>
+    <div class="viewer-tools"><button type="button" id="presenter-view" title="Open speaker notes in a separate window">Presenter view</button><button type="button" id="reading-view" aria-pressed="false" title="Show all slides in a scrollable reading view">Reading view</button><a href="assets/downloads/GLAS3112-Spain-2027.pdf" download title="Download the presentation as a PDF">PDF</a><button type="button" id="fullscreen" aria-label="Enter fullscreen" title="Fullscreen (F)">⛶</button></div>
   </nav>
-  <p class="sr-only" id="slide-announcement" aria-live="polite" aria-atomic="true">Slide 1 of 12: Spain 2027</p>
+  <p class="sr-only" id="slide-announcement" aria-live="polite" aria-atomic="true">Slide 1 of 15: Spain 2027</p>
   <p class="sr-only" id="viewer-message" role="status"></p>
-  <noscript><style>.presentation{position:static}.slide-stage{transform:none!important}.slide{display:block!important;position:relative!important;zoom:.6}.slide[hidden]{display:block!important}body{overflow:auto}.presentation-controls{display:none}</style><p>This presentation works best with JavaScript enabled. All twelve slides appear below.</p></noscript>
+  <noscript><style>.presentation{position:static}.slide-stage{transform:none!important}.slide{display:block!important;position:relative!important;zoom:.6}.slide[hidden]{display:block!important}body{overflow:auto}.presentation-controls{display:none}</style><p>This presentation works best with JavaScript enabled. All fifteen slides appear below.</p></noscript>
 </body>
 </html>

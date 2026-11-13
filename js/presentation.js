@@ -14,6 +14,14 @@
   let isReading = false;
   let touchStart = null;
 
+  // Keep the sent slide IDs and printed numbers; navigation uses DOM position.
+  select.replaceChildren(...slides.map((slide, index) => {
+    const option = document.createElement('option');
+    option.value = String(index + 1);
+    option.textContent = `${String(index + 1).padStart(2, '0')} / ${slides.length} · ${slide.dataset.title}`;
+    return option;
+  }));
+
   const number = (value, digits = 2) => Number(value).toLocaleString('en-HK', { minimumFractionDigits: digits, maximumFractionDigits: digits });
   const budget = trip.budget;
   if (budget) {
@@ -104,7 +112,8 @@
   if (preview.complete && preview.naturalWidth === 0) showPreviewFallback();
 
   function resize() {
-    const controlsHeight = document.getElementById('presentation-controls').getBoundingClientRect().height;
+    const cleanView = Boolean(document.fullscreenElement) || window.PresenterBridge?.mode === 'preview';
+    const controlsHeight = cleanView ? 0 : document.getElementById('presentation-controls').getBoundingClientRect().height;
     const viewportWidth = document.documentElement.clientWidth || window.innerWidth;
     const availableHeight = Math.max(180, window.innerHeight - controlsHeight);
     const scale = isReading ? Math.min((viewportWidth - 20) / 1600, 1) : Math.min(viewportWidth / 1600, availableHeight / 900);
@@ -129,19 +138,23 @@
     progress.style.width = `${current / slides.length * 100}%`;
     announcement.textContent = `Slide ${current} of ${slides.length}: ${slides[current - 1].dataset.title}`;
     document.title = `${slides[current - 1].dataset.title} · GLAS3112 Spain 2027`;
-    if (updateHash && location.hash !== `#slide-${current}`) {
-      try { history.replaceState(null, '', `#slide-${current}`); }
-      catch (_) { location.hash = `slide-${current}`; }
+    const slideId = slides[current - 1].id;
+    if (updateHash && location.hash !== `#${slideId}`) {
+      try { history.replaceState(null, '', `#${slideId}`); }
+      catch (_) { location.hash = slideId; }
     }
     if (isReading) {
       const top = slides[current - 1].getBoundingClientRect().top + window.scrollY;
       window.scrollTo({ top: Math.max(0, top - 12), behavior: 'auto' });
     }
+    window.PresentationRoute?.onSlideChange(slideId, isReading);
+    window.PresenterBridge?.slideChanged();
   }
 
   function readHash() {
-    const match = location.hash.match(/^#slide-(\d+)$/);
-    show(match ? Number(match[1]) : 1, false);
+    const requested = location.hash.slice(1);
+    const index = slides.findIndex(slide => slide.id === requested);
+    show(index >= 0 ? index + 1 : 1, false);
   }
   async function toggleFullscreen() {
     try {
@@ -157,6 +170,20 @@
     fullscreen.setAttribute('aria-label', active ? 'Exit fullscreen' : 'Enter fullscreen');
     fullscreen.title = active ? 'Exit fullscreen (F or Escape)' : 'Fullscreen (F)';
     resize();
+  }
+
+  const viewerMode = window.PresenterBridge.init({
+    slides,
+    getCurrent: () => current - 1,
+    show: id => show(slides.findIndex(slide => slide.id === id) + 1)
+  });
+  if (viewerMode === 'presenter') return;
+  if (viewerMode === 'preview') {
+    window.addEventListener('hashchange', readHash);
+    window.addEventListener('resize', resize);
+    readHash();
+    resize();
+    return;
   }
 
   previous.addEventListener('click', () => show(current - 1));

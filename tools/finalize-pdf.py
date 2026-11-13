@@ -11,8 +11,8 @@ source = Path(sys.argv[1]) if len(sys.argv) > 1 else root / "tmp/qa/presentation
 destination = root / "assets/downloads/GLAS3112-Spain-2027.pdf"
 public_base = "https://balpomorelitm.github.io/span2031web/"
 document = fitz.open(stream=source.read_bytes(), filetype="pdf")
-if len(document) != 12:
-    raise ValueError(f"Expected 12 presentation pages, found {len(document)}")
+if len(document) != 15:
+    raise ValueError(f"Expected 15 presentation pages, found {len(document)}")
 for page in document:
     for link in page.get_links():
         local = link.get("file", "")

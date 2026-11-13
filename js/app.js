@@ -21,6 +21,21 @@
     {file:'madrid-rastro.jpg',title:'Madrid · El Rastro',alt:'Visitors browsing market stalls on Ribera de Curtidores',author:'Javier Perez Montes',license:'CC BY-SA 4.0',source:'https://commons.wikimedia.org/wiki/File:Rastro_-_Ribera_de_Curtidores_-_Madrid_04.jpg'}
   ];
   const photoFor = image => photoRecords.find(photo => image?.endsWith(photo.file)) || photoRecords[0];
+  const stagePhotos = {
+    'madrid-arrival':['madrid-plaza-mayor.jpg','madrid-street.jpg'],
+    granada:['granada-alhambra.jpg','granada-albaicin.jpg'],
+    cordoba:['cordoba-mezquita.jpg'],
+    'madrid-return':['madrid-prado.jpg','madrid-rastro.jpg'],
+    'alcala-day-trip':['alcala-university.jpg'],
+    'toledo-day-trip':['toledo-panorama.jpg']
+  };
+  function programmePhotos(step){
+    const files=stagePhotos[step.id]||[photoFor(cityById[step.cityId]?.image).file];
+    return '<div class="stage-photos">'+files.map(file=>{
+      const photo=photoFor(file);
+      return `<figure class="stage-photo"><button type="button" class="image-open" data-photo="${esc(photo.file)}" aria-label="Enlarge ${esc(photo.title)}"><img src="assets/images/${esc(photo.file)}" alt="${esc(photo.alt)}" width="1920" height="1280" loading="lazy"></button><figcaption><strong>${esc(photo.title)}</strong><a class="credit" href="${esc(photo.source)}" target="_blank" rel="noopener noreferrer">${esc(photo.author)} · ${esc(photo.license)}</a></figcaption></figure>`;
+    }).join('')+'</div>';
+  }
 
   const menu = document.querySelector('.menu-toggle');
   const nav = $('main-nav');
@@ -44,7 +59,6 @@
   }
   updateCountdown();setInterval(updateCountdown,60000);
 
-  $('studentRouteCards').innerHTML=photoRecords.map(photo=>`<article class="route-card"><button type="button" class="image-open" data-photo="${esc(photo.file)}" aria-label="Enlarge ${esc(photo.title)}"><img src="assets/images/${esc(photo.file)}" alt="${esc(photo.alt)}" width="1920" height="1280" loading="lazy"></button><div class="body"><h4>${esc(photo.title)}</h4><p class="credit"><a href="${esc(photo.source)}" target="_blank" rel="noopener noreferrer">${esc(photo.author)} · ${esc(photo.license)}</a></p></div></article>`).join('');
   const dialog=$('lightbox');
   document.addEventListener('click', event=>{
     const button=event.target.closest('.image-open');if(!button)return;
@@ -82,7 +96,7 @@
     const svgPoints=cityIds.map(id=>schematicPoints[id]);
     const geoPoints=cityIds.map(id=>cityById[id].coords);
     const dot=$('routeDot');dot.style.display='';
-    const setPosition=progress=>{const svgPoint=pointOnPath(svgPoints,progress);dot.setAttribute('cx',svgPoint[0]);dot.setAttribute('cy',svgPoint[1]);if(traveller){traveller.setLatLng(pointOnPath(geoPoints,progress));traveller.setOpacity(cityIds.length>1?1:0);}};
+    const setPosition=progress=>{const svgPoint=pointOnPath(svgPoints,progress);dot.setAttribute('transform',`translate(${svgPoint[0]} ${svgPoint[1]})`);if(traveller){traveller.setLatLng(pointOnPath(geoPoints,progress));traveller.setOpacity(1);}};
     if(cityIds.length<2||reducedMotion){setPosition(1);return;}
     const began=performance.now();
     function frame(now){const progress=Math.min(1,(now-began)/1800);setPosition(progress);if(progress<1)animationFrame=requestAnimationFrame(frame);else animationFrame=null;}
@@ -131,7 +145,7 @@
       tiles.on('tileload',()=>{if(!tilesAvailable){tilesAvailable=true;setMapView();$('map-status').textContent='Online map available. Switch to the route diagram at any time; stage controls work in both views.';}});
       tiles.on('tileerror',()=>{if(++failures>=3){forceDiagram=true;setMapView();$('map-status').textContent='Online map tiles are unavailable or incomplete. The animated diagram and all stage controls remain available.';}});
       cities.forEach(city=>{const marker=L.marker(city.coords,{icon:L.divIcon({className:'map-city-marker',html:'<span class="leaflet-marker-label">'+esc(city.city)+'</span>',iconSize:[1,1],iconAnchor:[10,10]})}).addTo(routeMap);marker.bindPopup('<strong>'+esc(city.city)+'</strong><br>'+esc(city.subtitle));marker.on('click',()=>selectStep(steps.findIndex(step=>step.cityId===city.id)));markers[city.id]=marker;});
-      traveller=L.marker(cities[0].coords,{interactive:false,opacity:0,icon:L.divIcon({className:'map-train-marker',html:'<span class="route-train">TRIP</span>',iconSize:[38,24],iconAnchor:[19,12]})}).addTo(routeMap);
+      traveller=L.marker(cities[0].coords,{interactive:false,opacity:0,icon:L.divIcon({className:'map-bus-marker',html:'<img class="route-bus" src="assets/images/route-bus.svg" alt="Blue bus" width="56" height="42">',iconSize:[56,42],iconAnchor:[28,35]})}).addTo(routeMap);
       routeMap.fitBounds(cities.map(city=>city.coords),{padding:[35,45],animate:false});
     }catch{routeMap=null;routeLayers=null;$('map-status').textContent='The online map is unavailable. Use the animated diagram and stage controls.';}
   }
@@ -139,8 +153,8 @@
   let cityFilter='all',programmeView='list';
   function renderProgramme(){
     const visible=steps.map((step,index)=>({...step,index})).filter(step=>cityFilter==='all'||step.cityId===cityFilter);
-    $('studentDayList').innerHTML=visible.map((step,index)=>`<details class="day-card" id="day-${esc(step.id)}" ${index<2?'open':''}><summary><span class="day-number">STAGE ${step.index+1}</span><span class="day-title">${esc(step.label)} · ${esc(step.title)}</span><span class="day-city">${esc(step.mode)}</span></summary><div class="day-content"><div><p>${esc(step.description)}</p><div class="task-box"><strong>FIELDWORK FOCUS</strong>${esc(step.task)}</div></div><aside class="day-reminder"><h4>Keep in mind</h4><ul><li>Follow the confirmed meeting instructions.</li><li>Carry water, your phone and notes.</li><li>Gather evidence for your course question.</li></ul><button class="text-button" type="button" data-map-step="${esc(step.id)}">Show this stage on the map ↑</button></aside></div></details>`).join('');
-    $('studentTimeline').innerHTML=visible.map(step=>`<article class="timeline-card"><span class="day-number">STAGE ${step.index+1}</span><span class="mode-tag">${esc(step.mode)}</span><h3>${esc(step.label)}</h3><p><strong>${esc(step.title)}</strong></p><p>${esc(step.description)}</p><div class="task-box"><strong>FIELDWORK FOCUS</strong>${esc(step.task)}</div><button class="text-button" type="button" data-map-step="${esc(step.id)}">Show on map ↑</button></article>`).join('');
+    $('studentDayList').innerHTML=visible.map((step,index)=>`<details class="day-card" id="day-${esc(step.id)}" ${index<2?'open':''}><summary><span class="day-number">STAGE ${step.index+1}</span><span class="day-title">${esc(step.label)} · ${esc(step.title)}</span><span class="day-city">${esc(step.mode)}</span></summary><div class="day-content">${programmePhotos(step)}<div><p>${esc(step.description)}</p><div class="task-box"><strong>FIELDWORK FOCUS</strong>${esc(step.task)}</div></div><aside class="day-reminder"><h4>Keep in mind</h4><ul><li>Follow the confirmed meeting instructions.</li><li>Carry water, your phone and notes.</li><li>Gather evidence for your course question.</li></ul><button class="text-button" type="button" data-map-step="${esc(step.id)}">Show this stage on the map ↑</button></aside></div></details>`).join('');
+    $('studentTimeline').innerHTML=visible.map(step=>`<article class="timeline-card"><span class="day-number">STAGE ${step.index+1}</span><span class="mode-tag">${esc(step.mode)}</span><h3>${esc(step.label)}</h3>${programmePhotos(step)}<p><strong>${esc(step.title)}</strong></p><p>${esc(step.description)}</p><div class="task-box"><strong>FIELDWORK FOCUS</strong>${esc(step.task)}</div><button class="text-button" type="button" data-map-step="${esc(step.id)}">Show on map ↑</button></article>`).join('');
     document.querySelectorAll('#dayFilters button').forEach(button=>{const active=button.dataset.city===cityFilter;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));});
   }
   function setProgrammeView(view){programmeView=view;$('studentDayList').hidden=view!=='list';$('studentTimeline').hidden=view!=='timeline';document.querySelectorAll('[data-view-toggle]').forEach(button=>{const active=button.dataset.viewToggle===view;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active));});}
