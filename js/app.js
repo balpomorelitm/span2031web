@@ -177,7 +177,24 @@
   let conversionSource='convHKD';
   function convert(source=conversionSource){conversionSource=source;const destination=source==='convHKD'?'convEUR':'convHKD';const amount=numberInput(source),rate=numberInput('convRate');if(!Number.isFinite(rate)||rate<=0||(!Number.isNaN(amount)&&amount<0)){$(destination).value='';$('converterStatus').textContent='Enter a positive exchange rate and a non-negative amount.';return;}if(!Number.isFinite(amount)){$(destination).value='';$('converterStatus').textContent='Planning rate, not a live quote. Enter an amount in either currency.';return;}$(destination).value=(source==='convHKD'?amount/rate:amount*rate).toFixed(2);$('converterStatus').textContent='Converted at HK$'+rate.toFixed(2)+' per €1. This is not a live exchange quote.';}
   $('convHKD').addEventListener('input',()=>convert('convHKD'));$('convEUR').addEventListener('input',()=>convert('convEUR'));$('convRate').addEventListener('input',()=>convert());
-  function calculateBudget(){const days=numberInput('budgetDays'),meals=numberInput('budgetEurDay'),extras=numberInput('budgetExtra'),rate=numberInput('budgetRate');const valid=[days,meals,extras,rate].every(Number.isFinite)&&Number.isInteger(days)&&days>=1&&days<=30&&meals>=0&&extras>=0&&rate>0;$('budgetResult').classList.toggle('invalid',!valid);$('budgetResult').textContent=valid?'€'+fmt(days*meals+extras)+' ≈ HK$'+fmt((days*meals+extras)*rate):'Enter 1–30 whole days, non-negative costs and a positive exchange rate.';}
+  const mealAssumptions=budget.meals;
+  const mealPresets=Array.from(document.querySelectorAll('[data-meal-preset]'));
+  $('budgetDays').value=String(mealAssumptions.days);$('budgetEurDay').value=String(mealAssumptions.dailyEUR);
+  const mealPresetValue=button=>button.dataset.mealPreset==='planning'?mealAssumptions.planningDailyEUR:mealAssumptions.dailyEUR;
+  function calculateBudget(){
+    const days=numberInput('budgetDays'),meals=numberInput('budgetEurDay'),extras=numberInput('budgetExtra'),rate=numberInput('budgetRate');
+    const mealCost=days*meals,mealDifference=mealCost-mealAssumptions.includedEUR;
+    const spending=mealCost+extras,adjustedTrip=budget.totalEUR+mealDifference*(1+budget.contingencyEUR/budget.subtotalEUR)+extras;
+    const valid=[days,meals,extras,rate,spending,spending*rate,adjustedTrip,adjustedTrip*rate].every(Number.isFinite)&&Number.isInteger(days)&&days>=1&&days<=30&&meals>=0&&extras>=0&&rate>0;
+    mealPresets.forEach(button=>{const selected=meals===mealPresetValue(button);button.classList.toggle('active',selected);button.setAttribute('aria-pressed',String(selected));});
+    $('budgetResult').classList.toggle('invalid',!valid);
+    if(!valid){$('budgetResult').textContent='Enter 1–30 whole days, non-negative costs and a positive exchange rate.';$('budgetAdjustment').textContent='';$('budgetTripResult').textContent='';return;}
+    $('budgetResult').textContent='€'+fmt(spending)+' ≈ HK$'+fmt(spending*rate);
+    const direction=mealDifference>0?'above':mealDifference<0?'below':'equal to';
+    $('budgetAdjustment').textContent=mealDifference===0?'Meals match the €'+fmt(mealAssumptions.includedEUR)+' already included.':'Meals are €'+fmt(Math.abs(mealDifference))+' (HK$'+fmt(Math.abs(mealDifference)*rate)+') '+direction+' the €'+fmt(mealAssumptions.includedEUR)+' already included.';
+    $('budgetTripResult').textContent='€'+fmt(adjustedTrip)+' ≈ HK$'+fmt(adjustedTrip*rate);
+  }
+  mealPresets.forEach(button=>button.addEventListener('click',()=>{$('budgetEurDay').value=String(mealPresetValue(button));calculateBudget();}));
   ['budgetDays','budgetEurDay','budgetExtra','budgetRate'].forEach(id=>$(id).addEventListener('input',calculateBudget));calculateBudget();
   const emergencies=trip.emergency?.length?trip.emergency:[{number:'112',label:'Emergency assistance',scope:'Spain',url:'https://administracion.gob.es/pag_Home/en/Tu-espacio-europeo/derechos-obligaciones/ciudadanos/asistencia-sanitaria/numeros-urgencia.html'}];
   $('emergencyNumbers').innerHTML=emergencies.map(item=>`<div class="emergency-item"><a href="tel:${esc(item.number)}">${esc(item.number)}</a><div><strong>${esc(item.label)}</strong><p>${esc(item.scope)}</p><a class="credit" href="${esc(item.url)}" target="_blank" rel="noopener noreferrer">Official source ↗</a></div></div>`).join('');

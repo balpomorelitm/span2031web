@@ -105,13 +105,25 @@
    if(following)post(nextFrame.contentWindow,'preview',{slideId:following.id});
   }
   function expandable(label,text){const detail=node('details',undefined,'presenter-detail');detail.append(node('summary',label),node('p',text));notes.append(detail);}
+  function background(item){
+   const card=node('section',undefined,'presenter-background');
+   card.append(node('p','Background','presenter-background-label'),node('h4',item.title),node('p',item.text,'presenter-background-text'));
+   notes.append(card);
+  }
   function renderNotes(id){
    const entry=(window.PRESENTER_NOTES||{})[id]||{};notes.replaceChildren(node('h2',title(slides[currentIndex])));
    if(entry.seconds)notes.append(node('p','Suggested time: '+format(entry.seconds*1000),'presenter-note-duration'));
    notes.append(node('h3','Speaking outline'));
-   for(const text of entry.script||['No notes for this slide.'])notes.append(node('p',text,'presenter-script'));
+   const script=Array.isArray(entry.script)&&entry.script.length?entry.script:['No notes for this slide.'];
+   const details=Array.isArray(entry.details)?entry.details:[];
+   for(const [paragraph,text]of script.entries()){
+    notes.append(node('p',text,'presenter-script'));
+    for(const item of details){
+     const after=Number.isInteger(item.after)&&item.after>=0&&item.after<script.length?item.after:script.length-1;
+     if(after===paragraph)background(item);
+    }
+   }
    if(entry.transition){const transition=node('div',undefined,'presenter-transition');transition.append(node('h3','Transition'),node('p',entry.transition));notes.append(transition);}
-   if(entry.details?.length){notes.append(node('h3','Background'));for(const item of entry.details)expandable(item.title,item.text);}
    if(entry.qa?.length){notes.append(node('h3','Questions to anticipate'));for(const item of entry.qa)expandable(item.question,item.answer);}
    if(entry.sources?.length){const sources=node('div',undefined,'presenter-sources');sources.append(node('h3','Sources'));for(const source of entry.sources){const link=node('a',source.title);link.href=source.url;link.target='_blank';link.rel='noopener';sources.append(link);}notes.append(sources);}
    notes.scrollTop=0;

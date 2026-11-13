@@ -6,7 +6,7 @@ window.TRIP = Object.freeze({
   subclass: 'Subclass 2A',
   datesLabel: '26 May – 9 June 2027',
   startDate: '2027-05-26', endDate: '2027-06-09',
-  groupLabel: '10–14 students',
+  groupLabel: '8–12 students',
   url: 'https://balpomorelitm.github.io/span2031web/estudiantes.html',
   contact: 'martinjg@hku.hk,pablot@hku.hk',
   coordinators: ['Martín Juaristi', 'Pablo Torrado Solo de Zaldivar'],
@@ -61,6 +61,7 @@ window.TRIP = Object.freeze({
   ],
   budget: {
     rate:9, subtotalEUR:1708, contingencyEUR:170.8, totalEUR:1878.8, totalHKD:16909.2,
+    meals:{days:15,dailyEUR:22,includedEUR:330,planningDailyEUR:30},
     items:[
       {label:'Return flight: Hong Kong–Madrid',eur:700},
       {label:'Shared accommodation · 14 nights',eur:405},
